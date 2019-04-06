@@ -13,7 +13,7 @@ This repository comprises implementation of Question Answering using the pretrai
 - [BERT for Question Answering](#bert-for-question-answering)
 - [What is SQuAD?](#what-is-squad)
 - [Reading the SQuAD data](#reading-the-squad-data)
-- Converting into features
+- [Converting into features](#converting-into-features)
 - Training
 - Evaluation
 - Fine tuning the answers
@@ -35,7 +35,7 @@ Results were all obtained with almost no task-specific neural network architectu
 
 In the paper, they suggested the architecture for Question Answering Tasks:
 
-![img](./images/base_model.png)
+![model](./images/base_model.png)
 
 Key steps:
 
@@ -51,6 +51,38 @@ Stanford Question Answering Dataset (SQuAD) is a reading comprehension dataset, 
 
 The dataset can be dowloaded from [here](https://rajpurkar.github.io/SQuAD-explorer/)
 
-See a sample squad data [here](./samples/squad_sample.json)
+See a sample squad data [here](./samples/squad_sample.md)
 
 ### Reading the SQuAD data
+
+Each data point in Squad has
+
+- A entry: A wikipedia article
+- Each entry has multiple paragraphs
+- Each paragraph multiple questions
+- Each question has a single / no answer
+
+Converting the squad data into `SquadExample` instances are done as the following.
+
+![data reading](./images/read_data.png)
+
+Main steps involved in data reading are :
+
+- for each paragraph
+    - creating the tokens for each paragraph
+    - creating the character to token offset
+    - for each question in the paragraph
+        - creating the answer text from the given answer offset positions
+        - get the start position of the answer
+        - get the end position of the answer
+        - create the `SquadExample` using the above data
+
+### Converting into features
+
+Once the data is read, the next step would be to convert the `SquadExample` into `InputFeatures` so that it will suitable for the model to process.
+
+Convertion of examples into features are done as the following.
+
+![features](./images/load_examples.png)
+
+Main steps involved in convertion of examples into features are :
