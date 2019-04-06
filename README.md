@@ -14,8 +14,8 @@ This repository comprises implementation of Question Answering using the pretrai
 - [What is SQuAD?](#what-is-squad)
 - [Reading the SQuAD data](#reading-the-squad-data)
 - [Converting into features](#converting-into-features)
-- Training
-- Evaluation
+- [Training](#training)
+- [Evaluation](#evaluation)
 - Fine tuning the answers
 - End Notes
 
@@ -111,3 +111,27 @@ For each document span:
 - Create the input mask, indicating upto where the input is present and where the padding is.
 - Indicate whether the document span is containing the answer or not by checking the positions.
 - Create the `InputFeatures` using the above data.
+
+### Training
+
+There are various types of BERT models available
+
+-   BERT base, uncased
+-   BERT base, cased
+-   BERT large, uncased
+-   BERT large, cased
+
+I choose the BERT base, uncased model for training. 
+
+Once the model is downloaded and the data is converted into features, we can train the model.
+
+Main steps involved in training are:
+- Create a sampler for the train data
+- Create a dataloader using the sampler and train data
+- Create a optimizer for updating the model params
+- `CrossEntropyLoss` is the loss used
+- The loss function is already implemented in `BertForQuestionAnswering` class.
+- Train the model
+- Save the trained model, and the configuration used.
+
+### Evaluation
