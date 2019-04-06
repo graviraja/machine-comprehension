@@ -86,3 +86,25 @@ Convertion of examples into features are done as the following.
 ![features](./images/load_examples.png)
 
 Main steps involved in convertion of examples into features are :
+
+For each example:
+
+- convert the query into tokens
+- convert the document into tokens using BERT tokenizer (WordPiece tokenizer)
+- create the mappings from bert tokenized tokens to normal (whitespaced) tokens
+- Get the start and end token positions from the bert tokens
+    - Update the start and end tokens that better matches the answer
+- Create document spans: documents having more than sequence lengths split the document into multiple spans.
+
+For each document span:
+
+- Add the query tokens into `tokens` which contains all the input tokens
+- Add the `[CLS]` token and `[SEP]`, which indicates that query is the sequence 1
+- Create the segment ids `0` to indicates the question sequence.
+- Since the question is added, create the mapping of document tokens to original token
+- Check whether the each token in document span is having maximum context
+    - Since document spans are created for documents having length greater than maximum sequence length, a token in document can appear in multiple document spans. We want to return better answer. So we check if the token is maximum context document span or not.
+- Convert the tokens into ids using the BERT tokenizer
+- Create the input mask, indicating upto where the input is present and where the padding is.
+- Indicate whether the document span is containing the answer or not by checking the positions.
+- Create the `InputFeatures` using the above data.
