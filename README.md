@@ -135,3 +135,45 @@ Main steps involved in training are:
 - Save the trained model, and the configuration used.
 
 ### Evaluation
+
+Each datapoint is a example. As discussed already, each example can contain multiple document spans(features). So we need to predict for each feature what are the start and end positions.
+
+Then from all features of an example, we need to select the best possible start and end positions. The initial positions for each feature is returned by the trained model. But we need to select the best positions which will be done via "Post Processing".
+
+Post processing of selecting best possible start and end positions of answer is done as the following.
+
+![features](./images/post_processing.png)
+
+Main steps involved in post processing are:
+
+Each example contains multiple features. For each feature there will be a result. We need to select the best results from all the results combined.
+
+- Create a mapping for each example to its features
+- Create a mapping for each result to feature
+
+For each feature
+- Get the corresponding result
+- Get the `n_best` indexes for the start and end positions, using the logits returned by the model.
+- Account for `no answer` cases.
+- Now that there are `n_best` indexes for start position and `n_best` indexes for end position, prune all the invalid cases like:
+    - start index is greater than end index
+    - start index is not in document tokens
+    - end index is not in end tokens
+    - start index is not in maximum context
+- Create a `prelim prediction` using the above data
+
+Now merge all the prelim predictions of all features of an example.
+- sort the prelim predictions
+
+Select the `n_best` predictions from prelim predictions as following:
+- Get the start position from the document using the predicted start index (Note that start position from the document might be different, because document contains normal tokens where as the start position predicted is from the bert tokenized input)
+- Similarly get the end position from the token
+- Create the answer text using from the tokens from the original document, call it as `orig_text`
+- Create the answer text using the predicted tokens, and remove the extra characters, call it as `tok_text`
+- Get the better possible answer using the `orig_text` and `tok_text`
+- Account for no answer cases
+- Create the `nbest prediction`
+
+Create the prediction probability score by applying softmax over the sum of start_logit and end_logit.
+
+Return the NbestPredictions.
