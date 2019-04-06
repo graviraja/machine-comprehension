@@ -9,10 +9,10 @@ I have taken the code from this [repo](https://github.com/huggingface/pytorch-pr
 
 This repository comprises implementation of Question Answering using the pretrained BERT model.
 
-- [What is BERT?](# What is BERT?)
-- BERT for Question Answering
-- What is SQuAD?
-- Reading the SQuAD data
+- [What is BERT?](#what-is-bert)
+- [BERT for Question Answering](#bert-for-question-answering)
+- [What is SQuAD?](#what-is-squad)
+- [Reading the SQuAD data](#reading-the-squad-data)
 - Converting into features
 - Training
 - Evaluation
@@ -45,3 +45,12 @@ Key steps:
 
 The above mentioned linear layer on top BERT is already implemented as [`BertForQuestionAnswering`](https://github.com/huggingface/pytorch-pretrained-BERT/blob/master/pytorch_pretrained_bert/modeling.py#L1130)
 
+### What is SQuAD?
+
+Stanford Question Answering Dataset (SQuAD) is a reading comprehension dataset, consisting of questions posed by crowdworkers on a set of Wikipedia articles, where the answer to every question is a segment of text, or span, from the corresponding reading passage, or the question might be unanswerable.
+
+The dataset can be dowloaded from [here](https://rajpurkar.github.io/SQuAD-explorer/)
+
+See a sample squad data [here](./samples/squad_sample.json)
+
+### Reading the SQuAD data
