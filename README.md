@@ -104,6 +104,9 @@ For each document span:
 - Since the question is added, create the mapping of document tokens to original token
 - Check whether the each token in document span is having maximum context
     - Since document spans are created for documents having length greater than maximum sequence length, a token in document can appear in multiple document spans. We want to return better answer. So we check if the token is maximum context document span or not.
+- Add the `[SEP]` token at the end of document span tokens
+- Add the corresponding segment ids `1` to indicate the document span tokens.
+- Pad the tokens and segment ids upto maximum sequence length
 - Convert the tokens into ids using the BERT tokenizer
 - Create the input mask, indicating upto where the input is present and where the padding is.
 - Indicate whether the document span is containing the answer or not by checking the positions.
