@@ -16,8 +16,7 @@ This repository comprises implementation of Question Answering using the pretrai
 - [Converting into features](#converting-into-features)
 - [Training](#training)
 - [Evaluation](#evaluation)
-- Fine tuning the answers
-- End Notes
+- [Next Steps](#next-steps)
 
 
 ### What is BERT?
@@ -177,3 +176,8 @@ Select the `n_best` predictions from prelim predictions as following:
 Create the prediction probability score by applying softmax over the sum of start_logit and end_logit.
 
 Return the NbestPredictions.
+
+### Next Steps
+
+- Capture the metrics
+- Add the sample outputs in each steps of pre-processing, post-processing
